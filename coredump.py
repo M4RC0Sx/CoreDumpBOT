@@ -32,23 +32,31 @@ def load_token():
 class CoreDump(commands.Bot):
 
     def __init__(self, config_manager):
+
         self.cm = config_manager
 
         self.token = load_token()
         super().__init__(command_prefix=self.cm.get_command_prefix())
 
-        self.load_extension('extensions.test_commands')
-
     def get_token(self):
         return self.token
 
+    def load_extensions(self):
+
+        self.load_extension('extensions.test_commands')
+        self.load_extension('extensions.crypto_broadcasts')
+
     async def on_ready(self):
+
         logger.info('Logged in as {}.'.format(self.user))
+
+        self.load_extensions()
 
         logger.info('Changing bot presence...')
         await self.change_presence(activity=discord.Game(name=self.cm.get_presence()))
 
     async def on_message(self, message):
+
         await self.process_commands(message)
 
 

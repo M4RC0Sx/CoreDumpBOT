@@ -2,4 +2,6 @@ version: 1.0
 
 bot_settings:
   command_prefix: "!"
-  presence: "Disfrutando el cambio de horarios."
+  presence: "Disfrutando del cambio de horarios."
+  channel_ids:
+    crypto_channel: "755515245887225987"

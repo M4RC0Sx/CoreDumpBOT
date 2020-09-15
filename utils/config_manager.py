@@ -25,3 +25,7 @@ class ConfigManager():
     def get_presence(self):
 
         return self.cfg['bot_settings']['presence']
+
+    def get_crypto_channel(self):
+
+        return int(self.cfg['bot_settings']['channel_ids']['crypto_channel'])
