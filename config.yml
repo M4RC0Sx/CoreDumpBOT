@@ -1,0 +1,5 @@
+version: 1.0
+
+bot_settings:
+  command_prefix: "!"
+  presence: "Disfrutando el cambio de horarios."

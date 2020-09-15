@@ -1,10 +1,11 @@
 import logging
 
-
 import discord
 from discord.ext import commands
 
-COMMAND_PREFIX = '!'
+from utils.config_manager import ConfigManager
+
+
 TOKEN_FILE = '.token'
 
 
@@ -30,9 +31,11 @@ def load_token():
 
 class CoreDump(commands.Bot):
 
-    def __init__(self):
+    def __init__(self, config_manager):
+        self.cm = config_manager
+
         self.token = load_token()
-        super().__init__(command_prefix=COMMAND_PREFIX)
+        super().__init__(command_prefix=self.cm.get_command_prefix())
 
         self.load_extension('extensions.test_commands')
 
@@ -43,7 +46,7 @@ class CoreDump(commands.Bot):
         logger.info('Logged in as {}.'.format(self.user))
 
         logger.info('Changing bot presence...')
-        await self.change_presence(activity=discord.Game(name='Disfrutando el cambio de horarios.'))
+        await self.change_presence(activity=discord.Game(name=self.cm.get_presence()))
 
     async def on_message(self, message):
         await self.process_commands(message)
@@ -51,7 +54,9 @@ class CoreDump(commands.Bot):
 
 def main():
 
-    coredump = CoreDump()
+    cm = ConfigManager()
+
+    coredump = CoreDump(cm)
     coredump.run(coredump.get_token())
 
 

@@ -3,7 +3,7 @@ import logging
 
 from discord.ext import commands
 
-# Init and config logger.
+# Init logger.
 logger = logging.getLogger('CoreDump')
 
 
