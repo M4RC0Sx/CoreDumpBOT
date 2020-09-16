@@ -4,12 +4,12 @@ bot_settings:
   command_prefix: "!"
   presence: "Disfrutando del cambio de horarios."
   channel_ids:
-    crypto_channel: "755515245887225987"
-    verification_channel: "755481358540734464"
-    welcome_channel: "755742058865754112"
+    crypto_channel: 755515245887225987
+    verification_channel: 755481358540734464
+    welcome_channel: 755742058865754112
   role_ids:
-    developer_role: "755806290642731179"
-    verified_role: "755454941388210358"
+    developer_role: 755806290642731179
+    verified_role: 755454941388210358
   emoji_ids:
     verification_emoji: "bot_verification_emoji:755804263107526756"
   messages:
