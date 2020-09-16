@@ -20,6 +20,7 @@ cm = ConfigManager()
 class VerificationSystem(commands.Cog):
 
     def __init__(self, bot):
+
         self.bot = bot
         self.unverified_users = []
 
