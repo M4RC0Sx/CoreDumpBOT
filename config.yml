@@ -14,3 +14,4 @@ bot_settings:
     verification_emoji: "bot_verification_emoji:755804263107526756"
   messages:
     noperms_msg: "**ERROR >>** ¡No tienes permisos para usar este comando!"
+    forbiddenchannel_msg: "**ERROR >>** ¡No puedes ejecutar ese comando en este canal!"

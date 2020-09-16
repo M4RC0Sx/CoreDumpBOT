@@ -55,6 +55,10 @@ class ConfigManager():
 
         return self.cfg['bot_settings']['messages']['noperms_msg']
 
+    def get_forbiddenchannel_msg(self):
+
+        return self.cfg['bot_settings']['messages']['forbiddenchannel_msg']
+
     def get_img_dir(self):
 
         return IMG_DIR_PATH

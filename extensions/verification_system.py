@@ -7,6 +7,7 @@ from discord import File
 from discord.ext import commands
 
 from utils.config_manager import ConfigManager
+from utils.custom_exceptions import ForbiddenChannelException
 
 
 # Init logger.
@@ -36,10 +37,17 @@ class VerificationSystem(commands.Cog):
             msg = await ctx.channel.send('Mensaje de verificación.')
             await msg.add_reaction(cm.get_verification_emoji())
 
+        else:
+
+            raise ForbiddenChannelException
+
     @_cmd_verification_msg.error
     async def _cmd_verification_msg_error(self, ctx, error):
 
-        if isinstance(error, commands.MissingRole):
+        if isinstance(error, ForbiddenChannelException):
+            await ctx.send("{} {}".format(cm.get_forbiddenchannel_msg(), ctx.author.mention))
+
+        elif isinstance(error, commands.MissingRole):
             await ctx.send("{} {}".format(cm.get_noperms_msg(), ctx.author.mention))
 
     @commands.Cog.listener()
