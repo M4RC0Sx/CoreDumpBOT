@@ -85,8 +85,10 @@ class VerificationSystem(commands.Cog):
                 await message.remove_reaction(emoji, member)
                 return
 
+            # Add verified role, remove user from cache and remove user reaction.
             await member.add_roles(verified_role)
             self.unverified_users.remove(member.id)
+            await message.remove_reaction(emoji, member)
 
             welcome_channel = guild.get_channel(cm.get_welcome_channel())
 
