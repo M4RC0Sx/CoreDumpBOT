@@ -6,6 +6,7 @@ import logging
 logger = logging.getLogger('CoreDump')
 
 CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__), '../config.yml')
+IMG_DIR_PATH = os.path.join(os.path.dirname(__file__), '../media/img/')
 
 
 class ConfigManager():
@@ -34,6 +35,10 @@ class ConfigManager():
 
         return int(self.cfg['bot_settings']['channel_ids']['verification_channel'])
 
+    def get_welcome_channel(self):
+
+        return int(self.cfg['bot_settings']['channel_ids']['welcome_channel'])
+
     def get_verified_role(self):
 
         return int(self.cfg['bot_settings']['role_ids']['verified_role'])
@@ -45,3 +50,11 @@ class ConfigManager():
     def get_verification_emoji(self):
 
         return self.cfg['bot_settings']['emoji_ids']['verification_emoji']
+
+    def get_noperms_msg(self):
+
+        return self.cfg['bot_settings']['messages']['noperms_msg']
+
+    def get_img_dir(self):
+
+        return IMG_DIR_PATH

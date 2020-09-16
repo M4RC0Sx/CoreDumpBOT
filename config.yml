@@ -12,3 +12,5 @@ bot_settings:
     verified_role: "755454941388210358"
   emoji_ids:
     verification_emoji: "bot_verification_emoji:755804263107526756"
+  messages:
+    noperms_msg: "**ERROR >>** ¡No tienes permisos para usar este comando!"

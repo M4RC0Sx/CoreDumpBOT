@@ -1,6 +1,9 @@
 import logging
+import io
+from PIL import Image, ImageDraw, ImageFont
 
 
+from discord import File
 from discord.ext import commands
 
 from utils.config_manager import ConfigManager
@@ -29,8 +32,14 @@ class VerificationSystem(commands.Cog):
 
         if verification_channel_id == channel_id:
 
-            msg = await ctx.channel.send("Mensaje de verificación.")
+            msg = await ctx.channel.send('Mensaje de verificación.')
             await msg.add_reaction(cm.get_verification_emoji())
+
+    @_cmd_verification_msg.error
+    async def _cmd_verification_msg_error(self, ctx, error):
+
+        if isinstance(error, commands.MissingRole):
+            await ctx.send("{} {}".format(cm.get_noperms_msg(), ctx.author.mention))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -70,12 +79,50 @@ class VerificationSystem(commands.Cog):
             verified_role = guild.get_role(verified_role_id)
 
             # If member not in unverified cache, remove reaction.
-            if member.id not in self.unverified_users or member.has_role(verified_role_id):
+            # if member.id not in self.unverified_users or member.has_role(verified_role_id):
+            if member.id not in self.unverified_users:
                 await message.remove_reaction(emoji, member)
                 return
 
-            await member.add_roles([verified_role, ])
+            await member.add_roles(verified_role)
             self.unverified_users.remove(member.id)
+
+            welcome_channel = guild.get_channel(cm.get_welcome_channel())
+
+            img_path = cm.get_img_dir() + 'welcome_bg.jpg'
+            img = Image.open(img_path)
+
+            img_width = img.size[0]
+            img_height = img.size[1]
+
+            img_draw = ImageDraw.Draw(img)
+            img_draw.rectangle([200, 100, img_width-200, img_height-500],
+                               fill=(0, 0, 0, 128), outline=(255, 255, 255))
+
+            msg = '¡Bienvenid@ al Servidor! @{}'.format(member.name)
+            msg_font = ImageFont.truetype(
+                '/usr/share/fonts/TTF/DejaVuSans-Bold.ttf', 40)
+            msg_width, msg_height = img_draw.textsize(msg, font=msg_font)
+            msg_x = (img_width - msg_width)//2
+            msg_y = (img_height - msg_height)//2
+
+            img_draw.text((msg_x, msg_y), msg, fill=(0, 0, 255), font=msg_font)
+
+            avatar = member.avatar_url_as(format='jpg', size=128)
+            avatar_buffer = io.BytesIO()
+            await avatar.save(avatar_buffer)
+            avatar_buffer.seek(0)
+
+            avatar_img = Image.open(avatar_buffer)
+            avatar_img.resize((128, 128))
+
+            img.paste(avatar_img, ((img_width-128)//2, (img_height-128)//2))
+
+            img_buffer = io.BytesIO()
+            img.save(img_buffer, format='PNG')
+            img_buffer.seek(0)
+
+            await welcome_channel.send("**BIENVENIDAS >>** ¡Damos la bienvenida a {}!".format(member.mention), file=File(img_buffer, 'welcome_img.png'))
 
 
 def setup(bot):
