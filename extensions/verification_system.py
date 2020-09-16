@@ -80,6 +80,7 @@ class VerificationSystem(commands.Cog):
             verified_role = guild.get_role(verified_role_id)
 
             # If member not in unverified cache, remove reaction.
+            # TODO Check if member has verified role? Must make a Role object loop.
             # if member.id not in self.unverified_users or member.has_role(verified_role_id):
             if member.id not in self.unverified_users:
                 await message.remove_reaction(emoji, member)
