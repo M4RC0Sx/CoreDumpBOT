@@ -20,6 +20,10 @@ logging.basicConfig(
 logger = logging.getLogger('CoreDump')
 
 
+# Load config manager.
+cm = ConfigManager()
+
+
 def load_token():
 
     # Read token from file.
@@ -31,12 +35,10 @@ def load_token():
 
 class CoreDump(commands.Bot):
 
-    def __init__(self, config_manager):
-
-        self.cm = config_manager
+    def __init__(self):
 
         self.token = load_token()
-        super().__init__(command_prefix=self.cm.get_command_prefix())
+        super().__init__(command_prefix=cm.get_command_prefix())
 
     def get_token(self):
         return self.token
@@ -45,6 +47,7 @@ class CoreDump(commands.Bot):
 
         self.load_extension('extensions.test_commands')
         self.load_extension('extensions.crypto_broadcasts')
+        self.load_extension('extensions.verification_system')
 
     async def on_ready(self):
 
@@ -53,7 +56,7 @@ class CoreDump(commands.Bot):
         self.load_extensions()
 
         logger.info('Changing bot presence...')
-        await self.change_presence(activity=discord.Game(name=self.cm.get_presence()))
+        await self.change_presence(activity=discord.Game(name=cm.get_presence()))
 
     async def on_message(self, message):
 
@@ -62,9 +65,7 @@ class CoreDump(commands.Bot):
 
 def main():
 
-    cm = ConfigManager()
-
-    coredump = CoreDump(cm)
+    coredump = CoreDump()
     coredump.run(coredump.get_token())
 
 

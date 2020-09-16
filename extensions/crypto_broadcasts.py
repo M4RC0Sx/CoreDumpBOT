@@ -7,9 +7,15 @@ from discord.ext import tasks
 
 from utils import crypto_api
 
+from utils.config_manager import ConfigManager
+
 
 # Init logger.
 logger = logging.getLogger('CoreDump')
+
+
+# Load config manager.
+cm = ConfigManager()
 
 
 class CryptoBroadcasts(commands.Cog):
@@ -40,7 +46,7 @@ class CryptoBroadcasts(commands.Cog):
             text='CoreDump [{}]'.format(format_date), icon_url=self.bot.user.avatar_url)
         embed_msg.set_thumbnail(url=self.bot.user.avatar_url)
 
-        await self.bot.get_channel(self.bot.cm.get_crypto_channel()).send(embed=embed_msg)
+        await self.bot.get_channel(cm.get_crypto_channel()).send(embed=embed_msg)
         logger.info('Cryptocurrency broadcast published!')
 
 

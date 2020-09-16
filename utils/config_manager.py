@@ -29,3 +29,19 @@ class ConfigManager():
     def get_crypto_channel(self):
 
         return int(self.cfg['bot_settings']['channel_ids']['crypto_channel'])
+
+    def get_verification_channel(self):
+
+        return int(self.cfg['bot_settings']['channel_ids']['verification_channel'])
+
+    def get_verified_role(self):
+
+        return int(self.cfg['bot_settings']['role_ids']['verified_role'])
+
+    def get_developer_role(self):
+
+        return int(self.cfg['bot_settings']['role_ids']['developer_role'])
+
+    def get_verification_emoji(self):
+
+        return self.cfg['bot_settings']['emoji_ids']['verification_emoji']
