@@ -25,10 +25,9 @@ class UtilityCommands(commands.Cog):
         if not qty or qty <= 0:
             raise commands.BadArgument
 
-        msgs = []
-        msgs = await ctx.channel.history(limit=qty).flatten()
-
-        await ctx.channel.delete_messages(msgs)
+        with ctx.channel.typing():
+            msgs = await ctx.channel.history(limit=qty).flatten()
+            await ctx.channel.delete_messages(msgs)
 
         await ctx.send("**LIMPIEZA >>** ¡Has borrado {} mensajes correctamente! {}".format(len(msgs), ctx.author.mention))
 
