@@ -46,6 +46,7 @@ class CoreDump(commands.Bot):
     def load_extensions(self):
 
         self.load_extension('extensions.test_commands')
+        self.load_extension('extensions.utility_commands')
         self.load_extension('extensions.crypto_broadcasts')
         self.load_extension('extensions.verification_system')
 

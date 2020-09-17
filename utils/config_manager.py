@@ -47,6 +47,10 @@ class ConfigManager():
 
         return self.cfg['bot_settings']['role_ids']['developer_role']
 
+    def get_admin_role(self):
+
+        return self.cfg['bot_settings']['role_ids']['admin_role']
+
     def get_verification_emoji(self):
 
         return self.cfg['bot_settings']['emoji_ids']['verification_emoji']
